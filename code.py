@@ -23,7 +23,8 @@ button = machine.Pin(JOYSTICK_BUTTON_PIN, machine.Pin.IN, machine.Pin.PULL_UP)
 # Calibration values (adjust based on your joystick)
 # Most joysticks have a center value around 32768 (half of 65535)
 CENTER_VALUE = 32768
-DEADZONE = 2000  # Deadzone to prevent drift at center position
+DEADZONE = 2000  # Deadzone to prevent drift at center position (~3% of ADC range)
+DIRECTION_THRESHOLD = 30  # Percentage threshold for direction detection
 
 def read_joystick():
     """
@@ -65,14 +66,14 @@ def get_direction(x_norm, y_norm):
     """
     direction = []
     
-    if y_norm > 30:
+    if y_norm > DIRECTION_THRESHOLD:
         direction.append("UP")
-    elif y_norm < -30:
+    elif y_norm < -DIRECTION_THRESHOLD:
         direction.append("DOWN")
     
-    if x_norm > 30:
+    if x_norm > DIRECTION_THRESHOLD:
         direction.append("RIGHT")
-    elif x_norm < -30:
+    elif x_norm < -DIRECTION_THRESHOLD:
         direction.append("LEFT")
     
     if not direction:
