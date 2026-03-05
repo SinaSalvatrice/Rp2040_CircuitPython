@@ -1,0 +1,4 @@
+# Python bytecode cache (host-side tooling artefacts)
+__pycache__/
+*.pyc
+*.pyo
